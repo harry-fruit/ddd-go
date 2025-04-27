@@ -5,11 +5,11 @@ import (
 	"net/http"
 )
 
-type Server struct {
+type HTTPServer struct {
 	Port string
 }
 
-func (s *Server) Start() {
+func (s *HTTPServer) Start() {
 
 	server := &http.Server{
 		Addr:    ":" + s.Port,
@@ -18,5 +18,11 @@ func (s *Server) Start() {
 
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatalf("server failed %v", err)
+	}
+}
+
+func NewHTTPServer(port string) *HTTPServer {
+	return &HTTPServer{
+		Port: port,
 	}
 }
