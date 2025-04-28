@@ -5,22 +5,22 @@ import (
 	abstractrepository "github.com/harry-fruit/ddd-go/internal/domain/repository"
 )
 
-type CreateProductUseCaseParamsResult = bool
+type UpdateProductUseCaseParamsResult = bool
 
-type CreateProductUseCase struct {
+type UpdateProductUseCase struct {
 	productRepository abstractrepository.ProductRepository
 }
 
-func NewCreateProductUseCase(
+func NewUpdateProductUseCase(
 	productRepository abstractrepository.ProductRepository,
-) *CreateProductUseCase {
-	return &CreateProductUseCase{
+) *UpdateProductUseCase {
+	return &UpdateProductUseCase{
 		productRepository: productRepository,
 	}
 }
 
-func (uc *CreateProductUseCase) Execute(params productdto.CreateProductDTO) (result CreateProductUseCaseParamsResult, err error) {
-	error := uc.productRepository.Create(params)
+func (uc *UpdateProductUseCase) Execute(params productdto.UpdateProductDTO) (result UpdateProductUseCaseParamsResult, err error) {
+	error := uc.productRepository.Update(params)
 
 	if error != nil {
 		return false, error
