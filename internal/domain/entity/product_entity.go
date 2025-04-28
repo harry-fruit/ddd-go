@@ -4,13 +4,13 @@ type Product struct {
 	Id             int
 	UniqueKey      string
 	Name           string
-	Description    string
+	Description    *string
 	Price          float64
 	RemainingStock int
 	Rating         float64
 }
 
-func NewProduct(uniqueKey string, name string, description string, price float64, remainingStock int, rating float64) *Product {
+func NewProduct(uniqueKey string, name string, description *string, price float64, remainingStock int, rating float64) *Product {
 	return &Product{
 		UniqueKey:      uniqueKey,
 		Name:           name,
