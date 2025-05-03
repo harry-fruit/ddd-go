@@ -5,7 +5,7 @@ import (
 	abstractrepository "github.com/harry-fruit/ddd-go/internal/domain/repository"
 )
 
-type CreateProductUseCaseParamsResult = bool
+type CreateProductUseCaseParamsResult = int
 
 type CreateProductUseCase struct {
 	productRepository abstractrepository.ProductRepository
@@ -20,11 +20,11 @@ func NewCreateProductUseCase(
 }
 
 func (uc *CreateProductUseCase) Execute(params productdto.CreateProductDTO) (result CreateProductUseCaseParamsResult, err error) {
-	error := uc.productRepository.Create(params)
+	id, error := uc.productRepository.Create(params)
 
 	if error != nil {
-		return false, error
+		return id, error
 	}
 
-	return true, nil
+	return id, nil
 }

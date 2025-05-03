@@ -2,7 +2,7 @@ package productusecase
 
 import (
 	abstractrepository "github.com/harry-fruit/ddd-go/internal/domain/repository"
-	pagination "github.com/harry-fruit/ddd-go/pkg"
+	pagination "github.com/harry-fruit/ddd-go/pkg/pagination"
 
 	"github.com/harry-fruit/ddd-go/internal/domain/entity"
 )

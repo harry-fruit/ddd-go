@@ -12,7 +12,7 @@ type GetProductByIdProductUseCase struct {
 	productRepository abstractrepository.ProductRepository
 }
 
-func NewGetProductUseCase(
+func NewGetProductByIdProductUseCase(
 	productRepository abstractrepository.ProductRepository,
 ) *GetProductByIdProductUseCase {
 	return &GetProductByIdProductUseCase{
