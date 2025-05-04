@@ -4,7 +4,7 @@ import (
 	productdto "github.com/harry-fruit/ddd-go/internal/application/dto/product"
 	productusecase "github.com/harry-fruit/ddd-go/internal/application/use_case/product"
 	abstractrepository "github.com/harry-fruit/ddd-go/internal/domain/repository"
-	pagination "github.com/harry-fruit/ddd-go/pkg"
+	pagination "github.com/harry-fruit/ddd-go/pkg/pagination"
 
 	"github.com/harry-fruit/ddd-go/internal/domain/entity"
 )
@@ -32,7 +32,7 @@ func NewProductService(
 	}
 }
 
-func (ps *ProductService) CreateProduct(params productdto.CreateProductDTO) (bool, error) {
+func (ps *ProductService) CreateProduct(params productdto.CreateProductDTO) (int, error) {
 	return ps.createProductUseCase.Execute(params)
 }
 
@@ -44,7 +44,7 @@ func (ps *ProductService) GetProducts() (*pagination.PaginationResult[[]*entity.
 	return ps.getProductsUseCase.Execute(nil)
 }
 
-func (ps *ProductService) UpdateProduct(params productdto.UpdateProductDTO) (bool, error) {
+func (ps *ProductService) UpdateProduct(params productdto.UpdateProductDTO) (int, error) {
 	return ps.updateProductUseCase.Execute(params)
 }
 

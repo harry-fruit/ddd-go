@@ -1,28 +1,46 @@
 package httpserver
 
 import (
+	"fmt"
 	"log"
-	"net/http"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/harry-fruit/ddd-go/config"
+	"go.uber.org/dig"
 )
 
 type HTTPServer struct {
-	Port string
+	port     string
+	Handlers []Handler
 }
 
-func (s *HTTPServer) Start() {
-
-	server := &http.Server{
-		Addr:    ":" + s.Port,
-		Handler: nil,
-	}
-
-	if err := server.ListenAndServe(); err != nil {
-		log.Fatalf("server failed %v", err)
-	}
+type HandlersIn struct {
+	dig.In
+	Handlers []Handler `group:"handlers"`
 }
 
-func NewHTTPServer(port string) *HTTPServer {
+func NewHTTPServer(h HandlersIn, config *config.Config) *HTTPServer {
 	return &HTTPServer{
-		Port: port,
+		port:     fmt.Sprintf(":%s", config.ServerPort),
+		Handlers: h.Handlers,
+	}
+}
+
+func (s *HTTPServer) Start(container *dig.Container) {
+	app := fiber.New(fiber.Config{
+		AppName: "ddd-go",
+	})
+
+	container.Invoke(RegisterAllRoutes)
+
+	api := app.Group("/api")
+	v1 := api.Group("/v1")
+
+	RegisterAllRoutes(v1, s.Handlers)
+
+	e := app.Listen(s.port)
+
+	if e != nil {
+		log.Fatalf("Fiber failed to start: %v", e)
 	}
 }
