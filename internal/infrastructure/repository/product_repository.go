@@ -5,6 +5,7 @@ import (
 
 	productdto "github.com/harry-fruit/ddd-go/internal/application/dto/product"
 	"github.com/harry-fruit/ddd-go/internal/domain/entity"
+	abstractrepository "github.com/harry-fruit/ddd-go/internal/domain/repository"
 	"github.com/harry-fruit/ddd-go/pkg/pagination"
 )
 
@@ -12,7 +13,7 @@ type ProductRepository struct {
 	db *sql.DB
 }
 
-func NewProductRepository(db *sql.DB) *ProductRepository {
+func NewProductRepository(db *sql.DB) abstractrepository.ProductRepository {
 	return &ProductRepository{
 		db: db,
 	}
