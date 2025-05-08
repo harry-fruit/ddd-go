@@ -8,6 +8,7 @@ import (
 	"github.com/harry-fruit/ddd-go/internal/domain/service"
 	httpserver "github.com/harry-fruit/ddd-go/internal/infrastructure/api/http"
 	httphandler "github.com/harry-fruit/ddd-go/internal/infrastructure/api/http/handler"
+	"github.com/harry-fruit/ddd-go/internal/infrastructure/api/http/router"
 	infrastructure "github.com/harry-fruit/ddd-go/internal/infrastructure/database"
 	"github.com/harry-fruit/ddd-go/internal/infrastructure/repository"
 	"go.uber.org/dig"
@@ -41,7 +42,11 @@ func BuildContainer() *dig.Container {
 	container.Provide(service.NewProductService)
 
 	// Handlers
-	container.Provide(httphandler.NewProductHandler, dig.Group("handlers"))
+	// container.Provide(httphandler.NewProductHandler, dig.Group("handlers"))
+	container.Provide(httphandler.NewProductHandler)
+
+	// Routes
+	container.Provide(router.NewProductRoute, dig.Group("routes"))
 
 	// API
 	container.Provide(httpserver.NewHTTPServer)
