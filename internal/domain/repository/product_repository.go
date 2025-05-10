@@ -8,7 +8,7 @@ import (
 )
 
 type ProductRepository interface {
-	Get(params *pagination.PaginationParams) (*pagination.PaginationResult[[]*entity.Product], error)
+	Get(params *pagination.PaginationParams) (*pagination.PaginationResult[entity.Product], error)
 	GetById(id int) (*entity.Product, error)
 	Create(product productdto.CreateProductDTO) (id int, err error)
 	Update(product productdto.UpdateProductDTO) (id int, err error)

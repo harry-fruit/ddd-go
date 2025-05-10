@@ -1,7 +1,7 @@
 package entity
 
 type Product struct {
-	Id             int
+	ID             uint
 	UniqueKey      string
 	Name           string
 	Description    *string

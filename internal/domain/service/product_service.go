@@ -27,8 +27,12 @@ func NewProductService(
 	deleteProductUseCase *productusecase.DeleteProductUseCase,
 ) *ProductService {
 	return &ProductService{
-		productRepository:    productRepository,
-		createProductUseCase: createProductUseCase,
+		productRepository:     productRepository,
+		createProductUseCase:  createProductUseCase,
+		getProductByIdUseCase: getProductByIdUseCase,
+		getProductsUseCase:    getProductsUseCase,
+		updateProductUseCase:  updateProductUseCase,
+		deleteProductUseCase:  deleteProductUseCase,
 	}
 }
 
@@ -40,8 +44,8 @@ func (ps *ProductService) GetProductById(id int) (*entity.Product, error) {
 	return ps.getProductByIdUseCase.Execute(id)
 }
 
-func (ps *ProductService) GetProducts() (*pagination.PaginationResult[[]*entity.Product], error) {
-	return ps.getProductsUseCase.Execute(nil)
+func (ps *ProductService) GetProducts(params *pagination.PaginationParams) (*pagination.PaginationResult[entity.Product], error) {
+	return ps.getProductsUseCase.Execute(params)
 }
 
 func (ps *ProductService) UpdateProduct(params productdto.UpdateProductDTO) (int, error) {
