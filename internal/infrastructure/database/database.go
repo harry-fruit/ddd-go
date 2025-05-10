@@ -1,12 +1,13 @@
 package infrastructure
 
 import (
-	"database/sql"
 	"fmt"
 	"strconv"
 
 	"github.com/harry-fruit/ddd-go/config"
 	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 type DatabaseConfig struct {
@@ -18,25 +19,24 @@ type DatabaseConfig struct {
 	SSLMode  string
 }
 
-func NewPostgresDB(config *config.Config) (*sql.DB, error) {
+func NewSQLDatabase(config *config.Config) (*gorm.DB, error) {
 	dbConfig, err := getDbConfig(config)
 	if err != nil {
 		return nil, err
 	}
-
-	dsn := fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
-		dbConfig.Host, dbConfig.Port, dbConfig.User, dbConfig.Password, dbConfig.DBName, dbConfig.SSLMode,
+	dns := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%d sslmode=%s",
+		dbConfig.Host, dbConfig.User, dbConfig.Password, dbConfig.DBName, dbConfig.Port, dbConfig.SSLMode,
 	)
 
-	db, err := sql.Open("postgres", dsn)
+	db, err := gorm.Open(postgres.Open(dns), &gorm.Config{})
+
 	if err != nil {
-		return nil, fmt.Errorf("failed to open db: %w", err)
+		return nil, err
 	}
 
-	if err := db.Ping(); err != nil {
-		return nil, fmt.Errorf("failed to ping db: %w", err)
-	}
+	// Auto-migrate tables
+	// db.AutoMigrate(&entity.Product{})
 
 	return db, nil
 }
