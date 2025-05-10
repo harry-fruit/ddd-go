@@ -1,20 +1,120 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a sample swagger for Fiber",
-        "title": "Fiber Example API",
-        "termsOfService": "http://swagger.io/terms/",
+        "description": "This is a sample Rest API for Golang that uses DDD, Clean Architecture, and SOLID principles.",
+        "title": "DDD-Go",
         "contact": {
-            "name": "API Support",
-            "email": "fiber@swagger.io"
+            "name": "Isaque",
+            "email": "contact@isaquedev.com"
         },
         "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+            "name": "Apache 2.0 // TODO: Change this",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html // TODO: Change this"
         },
-        "version": "1.0"
+        "version": "0.0.1"
     },
-    "host": "localhost:8080",
-    "basePath": "/api/v1",
-    "paths": {}
+    "host": "localhost:3001 // TODO: Change this",
+    "basePath": "/api/v1 // TODO: Change this",
+    "paths": {
+        "/products": {
+            "get": {
+                "description": "Get a list of all products in the catalog",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "List all products",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Items per page",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "JSON string for filtering conditions (e.g., {\\",
+                        "name": "where",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pagination.PaginationResult-entity_Product"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entity.Product": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "remainingStock": {
+                    "type": "integer"
+                },
+                "uniqueKey": {
+                    "type": "string"
+                }
+            }
+        },
+        "pagination.PaginationResult-entity_Product": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Product"
+                    }
+                },
+                "has_next_page": {
+                    "type": "boolean"
+                },
+                "has_prev_page": {
+                    "type": "boolean"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "total_items": {
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
 }
