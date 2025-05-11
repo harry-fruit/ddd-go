@@ -6,10 +6,10 @@ type Product struct {
 	Name           string
 	Description    *string
 	Price          float64
-	RemainingStock int
+	RemainingStock *int
 }
 
-func NewProduct(uniqueKey string, name string, description *string, price float64, remainingStock int, rating float64) *Product {
+func NewProduct(uniqueKey string, name string, description *string, price float64, remainingStock *int, rating float64) *Product {
 	return &Product{
 		UniqueKey:      uniqueKey,
 		Name:           name,
