@@ -24,16 +24,15 @@ func NewHTTPServer(routes sharedinfra.RoutesIn, config *config.Config) *HTTPServ
 	}
 }
 
-// @title Fiber Example API
-// @version 1.0
-// @description This is a sample swagger for Fiber
-// @termsOfService http://swagger.io/terms/
-// @contact.name API Support
-// @contact.email fiber@swagger.io
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host localhost:8080
-// @BasePath /api/v1
+// @title DDD-Go
+// @version 0.0.1
+// @description This is a sample Rest API for Golang that uses DDD, Clean Architecture, and SOLID principles.
+// @contact.name Isaque
+// @contact.email contact@isaquedev.com
+// @license.name Apache 2.0 // TODO: Change this
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html // TODO: Change this
+// @host localhost:3001 // TODO: Change this
+// @BasePath /api/v1 // TODO: Change this
 func (s *HTTPServer) Start() {
 
 	app := fiber.New(fiber.Config{
