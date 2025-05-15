@@ -5,9 +5,11 @@ import (
 	"strconv"
 
 	"github.com/harry-fruit/ddd-go/config"
+	gormmodel "github.com/harry-fruit/ddd-go/internal/infrastructure/model/gorm"
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 type DatabaseConfig struct {
@@ -29,14 +31,16 @@ func NewSQLDatabase(config *config.Config) (*gorm.DB, error) {
 		dbConfig.Host, dbConfig.User, dbConfig.Password, dbConfig.DBName, dbConfig.Port, dbConfig.SSLMode,
 	)
 
-	db, err := gorm.Open(postgres.Open(dns), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dns), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 
 	if err != nil {
 		return nil, err
 	}
 
 	// Auto-migrate tables
-	// db.AutoMigrate(&entity.Product{})
+	db.AutoMigrate(&gormmodel.ProductModel{}) //TODO: Verify if this is the right way to do it
 
 	return db, nil
 }
