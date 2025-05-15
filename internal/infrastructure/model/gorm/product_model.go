@@ -18,3 +18,7 @@ type ProductModel struct {
 	UpdatedAt      time.Time      `gorm:"column:updated_at"`
 	DeletedAt      gorm.DeletedAt `gorm:"column:deleted_at"`
 }
+
+func (ProductModel) TableName() string {
+	return "Product"
+}

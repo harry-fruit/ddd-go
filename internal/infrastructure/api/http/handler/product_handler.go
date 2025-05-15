@@ -4,7 +4,11 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	productdto "github.com/harry-fruit/ddd-go/internal/application/dto/product"
 	"github.com/harry-fruit/ddd-go/internal/domain/service"
+	httpserver "github.com/harry-fruit/ddd-go/internal/infrastructure/api/http"
+	apperror "github.com/harry-fruit/ddd-go/internal/infrastructure/errors"
+	sharedinfra "github.com/harry-fruit/ddd-go/internal/shared/infrastructure"
 	"github.com/harry-fruit/ddd-go/pkg/pagination"
 )
 
@@ -13,9 +17,29 @@ type ProductHandler struct {
 }
 
 func (ph *ProductHandler) CreateProduct(c *fiber.Ctx) error {
-	fmt.Println(c.Method())
+	var req productdto.CreateProductDTO
 
-	return c.SendString("Hello, World!")
+	if err := c.BodyParser(&req); err != nil {
+		return httpserver.NewHTTPResponseBadRequest(c, err.Error())
+	}
+
+	validate := sharedinfra.NewValidate()
+
+	if errs := validate.Execute(&req); errs != nil {
+		return httpserver.NewHTTPResponseBadRequest(c, errs)
+	}
+
+	id, err := ph.service.CreateProduct(&req)
+
+	if err != nil {
+		return apperror.Handle(c, err)
+	}
+
+	response := map[string]any{
+		"id": id,
+	}
+
+	return httpserver.NewHTTPResponseCreated(c, response)
 }
 
 // GetProducts godoc

@@ -36,8 +36,8 @@ func NewProductService(
 	}
 }
 
-func (ps *ProductService) CreateProduct(params productdto.CreateProductDTO) (int, error) {
-	return ps.createProductUseCase.Execute(params)
+func (ps *ProductService) CreateProduct(params *productdto.CreateProductDTO) (uint, error) {
+	return ps.createProductUseCase.Execute(params.ToDomain())
 }
 
 func (ps *ProductService) GetProductById(id int) (*entity.Product, error) {
