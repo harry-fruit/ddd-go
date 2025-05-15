@@ -29,12 +29,6 @@ func LoadConfig() (*Config, error) {
 
 	fileName := getEnvFileName(*env)
 
-	dir, err := os.Getwd()
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-	fmt.Println("Current directory:", dir)
-
 	if err := godotenv.Load(fileName); err != nil {
 		return nil, fmt.Errorf("error loading .env file: %v", err)
 	}

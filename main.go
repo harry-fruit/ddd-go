@@ -11,7 +11,7 @@ func main() {
 	container := di.BuildContainer()
 
 	err := container.Invoke(func(api *httpserver.HTTPServer) {
-		api.Start(container)
+		api.Start()
 	})
 
 	if err != nil {
