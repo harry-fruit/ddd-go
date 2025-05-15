@@ -8,7 +8,7 @@ import (
 )
 
 type GetProductUseCaseParams = pagination.PaginationParams
-type GetProductUseCaseResult = *pagination.PaginationResult[[]*entity.Product]
+type GetProductUseCaseResult = *pagination.PaginationResult[entity.Product]
 
 type GetProductsUseCase struct {
 	productRepository abstractrepository.ProductRepository

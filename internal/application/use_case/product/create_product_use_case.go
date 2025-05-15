@@ -1,11 +1,14 @@
 package productusecase
 
 import (
-	productdto "github.com/harry-fruit/ddd-go/internal/application/dto/product"
+	"fmt"
+
+	"github.com/harry-fruit/ddd-go/internal/domain/entity"
 	abstractrepository "github.com/harry-fruit/ddd-go/internal/domain/repository"
+	apperror "github.com/harry-fruit/ddd-go/internal/infrastructure/errors"
 )
 
-type CreateProductUseCaseParamsResult = int
+type CreateProductUseCaseParamsResult = uint
 
 type CreateProductUseCase struct {
 	productRepository abstractrepository.ProductRepository
@@ -19,11 +22,21 @@ func NewCreateProductUseCase(
 	}
 }
 
-func (uc *CreateProductUseCase) Execute(params productdto.CreateProductDTO) (result CreateProductUseCaseParamsResult, err error) {
+func (uc *CreateProductUseCase) Execute(params *entity.Product) (result CreateProductUseCaseParamsResult, err error) {
+	exists, err := uc.productRepository.Exists(params.UniqueKey)
+
+	if err != nil {
+		return 0, apperror.NewInternalServerError(err)
+	}
+
+	if exists {
+		return 0, apperror.NewBadRequestError(fmt.Sprintf("product with unique key '%s' already exists", params.UniqueKey))
+	}
+
 	id, error := uc.productRepository.Create(params)
 
 	if error != nil {
-		return id, error
+		return 0, apperror.NewInternalServerError(error)
 	}
 
 	return id, nil

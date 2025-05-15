@@ -8,8 +8,9 @@ import (
 	"github.com/harry-fruit/ddd-go/internal/domain/service"
 	httpserver "github.com/harry-fruit/ddd-go/internal/infrastructure/api/http"
 	httphandler "github.com/harry-fruit/ddd-go/internal/infrastructure/api/http/handler"
+	"github.com/harry-fruit/ddd-go/internal/infrastructure/api/http/router"
 	infrastructure "github.com/harry-fruit/ddd-go/internal/infrastructure/database"
-	"github.com/harry-fruit/ddd-go/internal/infrastructure/repository"
+	gormrepository "github.com/harry-fruit/ddd-go/internal/infrastructure/repository/gorm"
 	"go.uber.org/dig"
 )
 
@@ -25,10 +26,10 @@ func BuildContainer() *dig.Container {
 	})
 
 	// Relational DB
-	container.Provide(infrastructure.NewPostgresDB)
+	container.Provide(infrastructure.NewSQLDatabase)
 
 	// Repositories
-	container.Provide(repository.NewProductRepository)
+	container.Provide(gormrepository.NewProductRepository)
 
 	// Use Cases
 	container.Provide(productusecase.NewGetProductsUseCase)
@@ -41,7 +42,10 @@ func BuildContainer() *dig.Container {
 	container.Provide(service.NewProductService)
 
 	// Handlers
-	container.Provide(httphandler.NewProductHandler, dig.Group("handlers"))
+	container.Provide(httphandler.NewProductHandler)
+
+	// Routes
+	container.Provide(router.NewProductRoute, dig.Group("routes"))
 
 	// API
 	container.Provide(httpserver.NewHTTPServer)

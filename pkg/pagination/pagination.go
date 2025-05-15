@@ -1,13 +1,13 @@
 package pagination
 
 type PaginationParams struct {
-	Page     int                    `json:"page"`
-	PageSize int                    `json:"page_size"`
-	Where    map[string]interface{} `json:"where,omitempty"`
+	Page     int `query:"page"`
+	PageSize int `query:"page_size"`
+	// Where    map[string]interface{} `query:"where,omitempty"` // TODO: Implement this
 }
 
 type PaginationResult[T any] struct {
-	Items       []T  `json:"items"`
+	Data        []T  `json:"data"`
 	Page        int  `json:"page"`
 	PageSize    int  `json:"page_size"`
 	TotalItems  int  `json:"total_items"`

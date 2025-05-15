@@ -1,0 +1,80 @@
+basePath: '/api/v1 // TODO: Change this'
+definitions:
+  entity.Product:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      remainingStock:
+        type: integer
+      uniqueKey:
+        type: string
+    type: object
+  pagination.PaginationResult-entity_Product:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/entity.Product'
+        type: array
+      has_next_page:
+        type: boolean
+      has_prev_page:
+        type: boolean
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total_items:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+host: 'localhost:3001 // TODO: Change this'
+info:
+  contact:
+    email: contact@isaquedev.com
+    name: Isaque
+  description: This is a sample Rest API for Golang that uses DDD, Clean Architecture,
+    and SOLID principles.
+  license:
+    name: 'Apache 2.0 // TODO: Change this'
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html // TODO: Change this'
+  title: DDD-Go
+  version: 0.0.1
+paths:
+  /products:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all products in the catalog
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Items per page
+        in: query
+        name: page_size
+        type: integer
+      - description: JSON string for filtering conditions (e.g., {\
+        in: query
+        name: where
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pagination.PaginationResult-entity_Product'
+        "500":
+          description: Internal Server Error
+      summary: List all products
+      tags:
+      - products
+swagger: "2.0"
